@@ -6,17 +6,15 @@ import facebook from '../../staticAssets/facebook.png'
 import instagram from '../../staticAssets/instagram.png'
 import linkedin from '../../staticAssets/linkedin.png'
 import twitter from '../../staticAssets/twitter.png'
-import { Avatar, Button, Checkbox, Divider, FormControlLabel, TextField } from '@material-ui/core';
+import { Avatar, Button, Checkbox, Divider, FormControlLabel } from '@material-ui/core';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
+import TextInput from '../TextInput/TextField';
 
 const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
       display: 'flex',
-    },
-    grid: {
-        minHeight: '100vh'
     },
     leftDiv: {
         margin: '5em',
@@ -61,6 +59,9 @@ const useStyles = makeStyles((theme) => ({
     divider: {
         marginTop: 25,
         marginBottom: 25,
+    },
+    heading: {
+        color: '#ff4747'
     }
   }));
 
@@ -86,12 +87,21 @@ function Login() {
         } else setDisableButton(true)
     }, [email, password])
 
+    const configEmailInput = {
+        id:"email-input", 
+        label:"Email"
+    }
+
+    const configPasswordInput = {
+        i:"password-input",
+        label:"Password"
+    }
     return (
         <div className={classes.root}>
-            <Grid container className={classes.grid}>
+            <Grid container alignItems="center">
                 <Grid item xs={8}>
                     <div className={classes.leftDiv}>
-                        <h1>
+                        <h1 className={classes.heading}>
                             Welcome Back!
                         </h1>
                         <span>Sign in using your socials</span>
@@ -113,22 +123,8 @@ function Login() {
                         
                         <form onSubmit={handleLogin}>
                             <div className={classes.inputWrapper}>
-                                <TextField 
-                                    id="email-input" 
-                                    label="Email" 
-                                    variant="outlined" 
-                                    fullWidth 
-                                    color='secondary'
-                                    className={classes.authInput} 
-                                    onChange={event=>setEmail(event.target.value)}/>
-                                <TextField 
-                                    id="password-input" 
-                                    label="Password" 
-                                    variant="outlined" 
-                                    fullWidth
-                                    color='secondary'
-                                    className={classes.authInput} 
-                                    onChange={event=>setPassword(event.target.value)}/>
+                                <TextInput {...configEmailInput } handleChange={event=>setEmail(event.target.value)}/>
+                                <TextInput {...configPasswordInput } handleChange={event=>setPassword(event.target.value)}/>
                             </div>
                             <FormControlLabel
                                     control={
