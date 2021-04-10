@@ -88,17 +88,20 @@ function Signup() {
 
     const configNameInput = {
         id:"name-input",
-        label:"Name"
+        label:"Name",
+        type: "name"
     }
 
     const configEmailInput = {
         id:"email-input", 
-        label:"Email"
+        label:"Email",
+        type: "email"
     }
 
     const configPasswordInput = {
         id:"password-input",
-        label:"Password"
+        label:"Password",
+        type: "password"
     }
 
     return (

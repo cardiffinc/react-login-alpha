@@ -7,12 +7,13 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 
-function TextInput({handleChange, id, label}) {
+function TextInput({handleChange, id, label, type}) {
     const classes = useStyles();
     return (
         <TextField 
             id={id} 
             label={label} 
+            type={type}
             variant="outlined" 
             fullWidth 
             color='secondary'

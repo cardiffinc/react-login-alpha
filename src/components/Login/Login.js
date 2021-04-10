@@ -89,12 +89,14 @@ function Login() {
 
     const configEmailInput = {
         id:"email-input", 
-        label:"Email"
+        label:"Email",
+        type: "email"
     }
 
     const configPasswordInput = {
         id:"password-input",
-        label:"Password"
+        label:"Password",
+        type: "password"
     }
     return (
         <div className={classes.root}>
