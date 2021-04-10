@@ -6,7 +6,7 @@ import facebook from '../../staticAssets/facebook.png'
 import instagram from '../../staticAssets/instagram.png'
 import linkedin from '../../staticAssets/linkedin.png'
 import twitter from '../../staticAssets/twitter.png'
-import { Avatar, Button, Checkbox, Divider, FormControlLabel } from '@material-ui/core';
+import { Avatar, Button, Checkbox, FormControlLabel } from '@material-ui/core';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import TextInput from '../TextInput/TextField';
@@ -29,8 +29,8 @@ const useStyles = makeStyles((theme) => ({
         backgroundSize: 'cover'
     },
     socialGrid: {
-        marginTop: 10,
-        marginBottom: 10
+        marginTop: 20,
+        marginBottom: 20
     },
     inputWrapper: {
         marginLeft: '5em',
@@ -48,13 +48,14 @@ const useStyles = makeStyles((theme) => ({
     checkbox: {
         paddingLeft: 0
     },
+    buttonGrid:{
+        paddingRight: '5em',
+        paddingLeft: '5em'
+    },
     authButton: {
         marginTop: 25,
-        marginLeft: '5em',
-        marginRight: '5em',
         width: '-webkit-fill-available',
         textTransform: 'none',
-        color: '#fff'
     },
     divider: {
         marginTop: 25,
@@ -65,27 +66,30 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 
-function Login() {
+function Signup() {
     const classes = useStyles();
     const history = useHistory();
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [disableButton, setDisableButton] = useState(true);
     const [error, setError] = useState(null);
 
-    const handleLogin = event => {
+    const handleSignup = event => {
         event.preventDefault();
-        if(email === 'mail@mail.com' && password === 'password@2021'){
-            history.push('/')
-        } else setError('Email or Password is incorrect')
     }
 
     useEffect(() => {
         setError(null);
-        if(email !== '' && password !== ''){
+        if(name !== '' && email !== '' && password !== ''){
             setDisableButton(false)
         } else setDisableButton(true)
-    }, [email, password])
+    }, [name, email, password])
+
+    const configNameInput = {
+        id:"name-input",
+        label:"Name"
+    }
 
     const configEmailInput = {
         id:"email-input", 
@@ -96,16 +100,19 @@ function Login() {
         id:"password-input",
         label:"Password"
     }
+
     return (
         <div className={classes.root}>
             <Grid container alignItems="center">
                 <Grid item xs={8}>
                     <div className={classes.leftDiv}>
                         <h1 className={classes.heading}>
-                            Welcome Back!
+                            Create Account
                         </h1>
-                        <span>Sign in using your socials</span>
-                        <Grid container justify="center" className={classes.socialGrid} spacing={2}>
+                        <Grid container 
+                            justify="center" 
+                            className={classes.socialGrid} 
+                            spacing={2}>
                             <Grid item xs={1}>
                                 <Avatar alt="Facebook" src={facebook} />
                             </Grid>
@@ -119,12 +126,19 @@ function Login() {
                                 <Avatar alt="Twitter" src={twitter} />
                             </Grid>
                         </Grid>
-                        <span>or use your email and password</span>
+                        <span>or use your email for registration</span>
                         
-                        <form onSubmit={handleLogin}>
+                        <form onSubmit={handleSignup}>
                             <div className={classes.inputWrapper}>
-                                <TextInput {...configEmailInput } handleChange={event=>setEmail(event.target.value)}/>
-                                <TextInput {...configPasswordInput } handleChange={event=>setPassword(event.target.value)}/>
+                                <TextInput 
+                                    {...configNameInput } 
+                                    handleChange={event=>setName(event.target.value)}/>  
+                                <TextInput 
+                                    {...configEmailInput } 
+                                    handleChange={event=>setEmail(event.target.value)}/>
+                                <TextInput 
+                                    {...configPasswordInput } 
+                                    handleChange={event=>setPassword(event.target.value)}/>
                             </div>
                             <FormControlLabel
                                     control={
@@ -134,30 +148,50 @@ function Login() {
                                         className={classes.checkbox}
                                     />
                                     }
-                                    label="Keep me logged in"
+                                    label="I agree to the Terms and Privacy Conditions"
                                     className={classes.checkFormControlLabel}
                             />
-                            <Button id="signin-button" variant="contained" size="large" color="secondary" className={classes.authButton} type="submit" disabled={disableButton}>
-                                Sign In
-                            </Button>
                             {error && 
                             <p>{error}
                             </p>}
+                            <Grid container alignItems="center" spacing={2} className={classes.buttonGrid}>
+                                <Grid item xs={6}>
+                                    <Button 
+                                        fullWidth   
+                                        id="signup-button" 
+                                        variant="contained" 
+                                        size="large" 
+                                        color="secondary" 
+                                        className={classes.authButton} 
+                                        type="submit" 
+                                        style={{color: '#fff'}}
+                                        disabled={disableButton}>
+                                        Sign Up
+                                    </Button>
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <Button 
+                                        fullWidth
+                                        id="signin-button" 
+                                        variant="outlined" 
+                                        size="large" 
+                                        color="secondary" 
+                                        className={classes.authButton} 
+                                        type="button" 
+                                        onClick={()=>history.push('/login')}>
+                                        Sign In
+                                    </Button>
+                                </Grid>
+                            </Grid>
                         </form>
-                        <Divider className={classes.divider} />
-                        <div>
-                            Don't have an account? <Link to='/signup' style={{color: "#ff4747"}}>Sign Up!</Link>
-                        </div>
                     </div>
                 </Grid>
                 <Grid item xs={4}>
-                    <div className={classes.rightDiv}>
-                        
-                    </div>
+                    <div className={classes.rightDiv}></div>
                 </Grid>
             </Grid>
         </div>
     );
 }
 
-export default Login
+export default Signup
