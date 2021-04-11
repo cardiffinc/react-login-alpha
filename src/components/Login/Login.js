@@ -10,6 +10,7 @@ import { Avatar, Button, Checkbox, Divider, FormControlLabel } from '@material-u
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import TextInput from '../TextInput/TextField';
+import { AES } from 'crypto-js';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -73,11 +74,22 @@ function Login() {
     const [disableButton, setDisableButton] = useState(true);
     const [error, setError] = useState(null);
 
+    const checkUserExists = user => {
+        return email === user.email;
+    }
     const handleLogin = event => {
         event.preventDefault();
-        if(email === 'mail@mail.com' && password === 'password@2021'){
-            history.push('/')
-        } else setError('Email or Password is incorrect')
+        const users = JSON.parse(localStorage.getItem('darthUsers'));
+        const userExists = users.filter(checkUserExists);
+       if(userExists.length > 0){
+           let encryptedPassword = userExists[0].encryptedPassword;
+           let decryptedPassword = AES.decrypt(encryptedPassword.toString(), 'Darth Vader');
+           let currentPassword = AES.encrypt(password, 'Darth Vader').toString();
+           console.log(encryptedPassword, decryptedPassword.toString(), currentPassword, AES.decrypt(currentPassword, 'Darth Vader').toString())
+       }
+        // if(email === 'mail@mail.com' && password === 'password@2021'){
+        //     history.push('/')
+        // } else setError('Email or Password is incorrect')
     }
 
     useEffect(() => {

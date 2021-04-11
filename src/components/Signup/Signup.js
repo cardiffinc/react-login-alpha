@@ -8,8 +8,9 @@ import linkedin from '../../staticAssets/linkedin.png'
 import twitter from '../../staticAssets/twitter.png'
 import { Avatar, Button, Checkbox, FormControlLabel } from '@material-ui/core';
 import { useHistory } from 'react-router';
-import { Link } from 'react-router-dom';
+import sha256 from 'crypto-js/sha256';
 import TextInput from '../TextInput/TextField';
+import { AES } from 'crypto-js';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -77,6 +78,18 @@ function Signup() {
 
     const handleSignup = event => {
         event.preventDefault();
+        let encryptedPassword = AES.encrypt(password, 'Darth Vader').toString();
+        const user = {name, email, encryptedPassword}
+        var users = [];
+        try {
+            users = JSON.parse(localStorage.getItem('darthUsers'));
+            users.push(user);
+        } catch(error){
+            users = [user]
+            console.log(error)
+        }
+        localStorage.setItem('darthUsers', JSON.stringify(users));
+        console.log('signup complete')
     }
 
     useEffect(() => {
