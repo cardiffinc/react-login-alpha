@@ -69,7 +69,6 @@ const useStyles = makeStyles((theme) => ({
 function Login() {
     const classes = useStyles();
     const history = useHistory();
-    const [currentUser, setCurrentUser] = useState(null);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [disableButton, setDisableButton] = useState(true);
@@ -90,20 +89,10 @@ function Login() {
         if(userExists.length > 0){
                 if( userExists[0].password === password){
                     localStorage.setItem('currentDarthUser', JSON.stringify(userExists[0]));
-                    setCurrentUser(userExists[0]);
                     history.push('/')
                 } else setError('Password is incorrect. Please try again!')
         } else setError('No such user found. Please signup!')
     }
-
-    useEffect(() => {
-        try {
-            const user = localStorage.getItem('currentDarthUser')
-            if(user) history.push('/')
-        } catch(error){
-            console.log(error);
-        }
-    }, [currentUser])
 
     useEffect(() => {
         setError(null);

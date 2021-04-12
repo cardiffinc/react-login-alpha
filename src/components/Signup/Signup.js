@@ -75,7 +75,6 @@ const useStyles = makeStyles((theme) => ({
 function Signup() {
     const classes = useStyles();
     const history = useHistory();
-    const [currentUser, setCurrentUser] = useState(null);
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -100,18 +99,8 @@ function Signup() {
         }
         localStorage.setItem('darthUsers', JSON.stringify(users));
         localStorage.setItem('currentDarthUser', JSON.stringify(user));
-        setCurrentUser(user);
         history.push('/');
     }
-
-    useEffect(() => {
-        try {
-            const user = localStorage.getItem('currentDarthUser')
-            if(user) history.push('/')
-        } catch(error){
-            console.log(error);
-        }
-    }, [currentUser])
 
     useEffect(() => {
         setError(null);
