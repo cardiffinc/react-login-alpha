@@ -69,6 +69,7 @@ const useStyles = makeStyles((theme) => ({
 function Login() {
     const classes = useStyles();
     const history = useHistory();
+    const [currentUser, setCurrentUser] = useState(null);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [disableButton, setDisableButton] = useState(true);
@@ -79,18 +80,30 @@ function Login() {
     }
     const handleLogin = event => {
         event.preventDefault();
-        const users = JSON.parse(localStorage.getItem('darthUsers'));
-        const userExists = users.filter(checkUserExists);
-       if(userExists.length > 0){
-           let encryptedPassword = userExists[0].encryptedPassword;
-           let decryptedPassword = AES.decrypt(encryptedPassword.toString(), 'Darth Vader');
-           let currentPassword = AES.encrypt(password, 'Darth Vader').toString();
-           console.log(encryptedPassword, decryptedPassword.toString(), currentPassword, AES.decrypt(currentPassword, 'Darth Vader').toString())
-       }
-        // if(email === 'mail@mail.com' && password === 'password@2021'){
-        //     history.push('/')
-        // } else setError('Email or Password is incorrect')
+        var userExists = [];
+        try {
+            const users = JSON.parse(localStorage.getItem('darthUsers'));
+            userExists = users.filter(checkUserExists);
+        } catch(error){
+            console.log(error)
+        }
+        if(userExists.length > 0){
+                if( userExists[0].password === password){
+                    localStorage.setItem('currentDarthUser', JSON.stringify(userExists[0]));
+                    setCurrentUser(userExists[0]);
+                    history.push('/')
+                } else setError('Password is incorrect. Please try again!')
+        } else setError('No such user found. Please signup!')
     }
+
+    useEffect(() => {
+        try {
+            const user = localStorage.getItem('currentDarthUser')
+            if(user) history.push('/')
+        } catch(error){
+            console.log(error);
+        }
+    }, [currentUser])
 
     useEffect(() => {
         setError(null);

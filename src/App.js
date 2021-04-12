@@ -4,6 +4,7 @@ import SignupPage from './pages/SignupPage/SignupPage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import HomePage from './pages/HomePage/HomePage';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
+import WithAuth from './hoc/withAuth';
 
 const theme = createMuiTheme({
   palette: {
@@ -28,7 +29,9 @@ function App() {
         <div className="App">
           <Switch>
           <Route exact path="/" render={() => (
-                <HomePage/>
+                <WithAuth>
+                  <HomePage/>
+                </WithAuth>
               )} />
           <Route exact path="/login" render={() => (
                 <LoginPage />

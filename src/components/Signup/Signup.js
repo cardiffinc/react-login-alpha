@@ -7,10 +7,9 @@ import instagram from '../../staticAssets/instagram.png'
 import linkedin from '../../staticAssets/linkedin.png'
 import twitter from '../../staticAssets/twitter.png'
 import { Avatar, Button, Checkbox, FormControlLabel } from '@material-ui/core';
+import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 import { useHistory } from 'react-router';
-import sha256 from 'crypto-js/sha256';
 import TextInput from '../TextInput/TextField';
-import { AES } from 'crypto-js';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -64,22 +63,33 @@ const useStyles = makeStyles((theme) => ({
     },
     heading: {
         color: '#ff4747'
+    },
+    error: {
+        color: '#ff4747'
+    },
+    errorIcon:{
+        verticalAlign: 'middle'
     }
   }));
 
 function Signup() {
     const classes = useStyles();
     const history = useHistory();
+    const [currentUser, setCurrentUser] = useState(null);
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [policy, setPolicy] = useState(false);
     const [disableButton, setDisableButton] = useState(true);
     const [error, setError] = useState(null);
 
+    const checkUserExists = user => {
+        return email === user.email;
+    }
+
     const handleSignup = event => {
         event.preventDefault();
-        let encryptedPassword = AES.encrypt(password, 'Darth Vader').toString();
-        const user = {name, email, encryptedPassword}
+        const user = {name, email, password}
         var users = [];
         try {
             users = JSON.parse(localStorage.getItem('darthUsers'));
@@ -89,15 +99,38 @@ function Signup() {
             console.log(error)
         }
         localStorage.setItem('darthUsers', JSON.stringify(users));
-        console.log('signup complete')
+        localStorage.setItem('currentDarthUser', JSON.stringify(user));
+        setCurrentUser(user);
+        history.push('/');
     }
 
     useEffect(() => {
+        try {
+            const user = localStorage.getItem('currentDarthUser')
+            if(user) history.push('/')
+        } catch(error){
+            console.log(error);
+        }
+    }, [currentUser])
+
+    useEffect(() => {
         setError(null);
-        if(name !== '' && email !== '' && password !== ''){
+        if(name !== '' && email !== '' && password !== '' && policy){
             setDisableButton(false)
         } else setDisableButton(true)
-    }, [name, email, password])
+    }, [name, email, password, policy])
+
+    useEffect(() => {
+        try {
+            const users = JSON.parse(localStorage.getItem('darthUsers'));
+            const userExists = users.filter(checkUserExists);
+            if(userExists.length>0){
+                setError('This email is already being used by another member.\nPlease signup with another email!')
+            } else setError(null)
+        } catch(error){
+            setError(null)
+        }
+    }, [email])
 
     const configNameInput = {
         id:"name-input",
@@ -162,13 +195,14 @@ function Signup() {
                                         name="checkedB"
                                         color="secondary"
                                         className={classes.checkbox}
+                                        onClick={event => event.target.checked ? setPolicy(true) : setPolicy(false)}
                                     />
                                     }
                                     label="I agree to the Terms and Privacy Conditions"
                                     className={classes.checkFormControlLabel}
                             />
                             {error && 
-                            <p>{error}
+                            <p className={classes.error}><ErrorOutlineIcon className={classes.errorIcon}/> {error}
                             </p>}
                             <Grid container alignItems="center" spacing={2} className={classes.buttonGrid}>
                                 <Grid item xs={6}>
