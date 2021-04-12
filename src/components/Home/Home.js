@@ -1,6 +1,7 @@
 import { Button } from '@material-ui/core'
 import React from 'react'
 import { useHistory } from 'react-router';
+import './styles.css'
 
 function Home() {
     const history = useHistory();
@@ -14,11 +15,17 @@ function Home() {
         history.push('/login')
     }
     return (
-        <div>
-            <h1>Welcome, {name}!</h1>
-            <Button onClick={handleLogout}>
+        <div className="homeHolder">
+            <h1 style={{color:'#ff4747'}}>Welcome, {name}!</h1>
+            <Button 
+                variant="outlined" 
+                color="secondary"
+                onClick={handleLogout}>
                 Logout
             </Button>
+            <div className='homeFooter'>
+                UI designed by <a href="https://dribbble.com/shots/11879454-Sign-Up-Form" target="_blank">Natalia K</a>. React Template by <a href="https://github.com/cardiffinc" target="_blank">sjoshuadarth</a>. 
+            </div>
         </div>
     )
 }

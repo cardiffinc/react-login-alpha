@@ -10,7 +10,6 @@ import { Avatar, Button, Checkbox, Divider, FormControlLabel } from '@material-u
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import TextInput from '../TextInput/TextField';
-import { AES } from 'crypto-js';
 
 const useStyles = makeStyles((theme) => ({
     root: {
