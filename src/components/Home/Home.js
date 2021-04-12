@@ -4,6 +4,7 @@ import { useHistory } from 'react-router';
 
 function Home() {
     const history = useHistory();
+    const {name} = JSON.parse(localStorage.getItem('currentDarthUser'));
     const handleLogout = () => {
         try{
             localStorage.removeItem('currentDarthUser');
@@ -14,7 +15,7 @@ function Home() {
     }
     return (
         <div>
-            <h1>Home</h1>
+            <h1>Welcome, {name}!</h1>
             <Button onClick={handleLogout}>
                 Logout
             </Button>

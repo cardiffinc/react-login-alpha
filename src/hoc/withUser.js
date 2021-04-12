@@ -1,5 +1,5 @@
 import { useUser } from './../customHooks';
 
-const WithUser = () => useUser();
+const WithUser = props => useUser(props) && props.children;
 
 export default WithUser; 

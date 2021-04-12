@@ -83,13 +83,14 @@ function Login() {
         try {
             const users = JSON.parse(localStorage.getItem('darthUsers'));
             userExists = users.filter(checkUserExists);
+            history.push('/');
         } catch(error){
             console.log(error)
         }
         if(userExists.length > 0){
                 if( userExists[0].password === password){
                     localStorage.setItem('currentDarthUser', JSON.stringify(userExists[0]));
-                    history.push('/')
+                    history.push('/');
                 } else setError('Password is incorrect. Please try again!')
         } else setError('No such user found. Please signup!')
     }

@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 const useAuth = props => {
-  const currentUser = localStorage.getItem('currentDarthUser');
+  const currentUser = JSON.parse(localStorage.getItem('currentDarthUser'));
   const history = useHistory();
   useEffect(() => {
     if (!currentUser) {
