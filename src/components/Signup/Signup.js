@@ -86,20 +86,39 @@ function Signup() {
         return email === user.email;
     }
 
+    const isUniqueEmail = () =>{
+        try {
+            const users = JSON.parse(localStorage.getItem('darthUsers'));
+            const userExists = users.filter(checkUserExists);
+            if(userExists.length>0){
+                setError('This email is already being used by another member.\nPlease signup with another email!')
+                return false;
+            } else {
+                setError(null);
+                return true;
+            }
+        } catch(error){
+            setError(null);
+            return true;
+        }
+    }
+
     const handleSignup = event => {
         event.preventDefault();
-        const user = {name, email, password}
-        var users = [];
-        try {
-            users = JSON.parse(localStorage.getItem('darthUsers'));
-            users.push(user);
-        } catch(error){
-            users = [user]
-            console.log(error)
-        }
-        localStorage.setItem('darthUsers', JSON.stringify(users));
-        localStorage.setItem('currentDarthUser', JSON.stringify(user));
-        history.push('/');
+        if(isUniqueEmail()){
+            const user = {name, email, password}
+            var users = [];
+            try {
+                users = JSON.parse(localStorage.getItem('darthUsers'));
+                users.push(user);
+            } catch(error){
+                users = [user]
+                console.log(error)
+            }
+            localStorage.setItem('darthUsers', JSON.stringify(users));
+            localStorage.setItem('currentDarthUser', JSON.stringify(user));
+            history.push('/');
+        } else setError('This email is already being used by another member.\nPlease signup with another email!');
     }
 
     useEffect(() => {
@@ -110,16 +129,13 @@ function Signup() {
     }, [name, email, password, policy])
 
     useEffect(() => {
-        try {
-            const users = JSON.parse(localStorage.getItem('darthUsers'));
-            const userExists = users.filter(checkUserExists);
-            if(userExists.length>0){
-                setError('This email is already being used by another member.\nPlease signup with another email!')
-            } else setError(null)
-        } catch(error){
-            setError(null)
-        }
+        isUniqueEmail();
     }, [email])
+
+    useEffect(() => {
+        if(error) setDisableButton(true)
+        else setDisableButton(false);
+    }, [error])
 
     const configNameInput = {
         id:"name-input",
