@@ -81,6 +81,7 @@ function Signup() {
     const [policy, setPolicy] = useState(false);
     const [disableButton, setDisableButton] = useState(true);
     const [error, setError] = useState(null);
+    document.title = 'SJoshuaDarth\'s Template | Signup';
 
     const checkUserExists = user => {
         return email === user.email;

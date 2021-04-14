@@ -5,6 +5,7 @@ import './styles.css'
 
 function Home() {
     const history = useHistory();
+    document.title = 'SJoshuaDarth\'s Template | Home';
     const {name} = JSON.parse(localStorage.getItem('currentDarthUser'));
     const handleLogout = () => {
         try{
@@ -24,7 +25,7 @@ function Home() {
                 Logout
             </Button>
             <div className='homeFooter'>
-                UI designed by <a href="https://dribbble.com/shots/11879454-Sign-Up-Form" target="_blank">Natalia K</a>. React Template by <a href="https://github.com/cardiffinc" target="_blank">sjoshuadarth</a>. 
+                UI designed by <a href="https://dribbble.com/shots/11879454-Sign-Up-Form" target="_blank" rel="noreferrer">Natalia K</a>. React Template by <a href="https://github.com/cardiffinc" target="_blank" rel="noreferrer">sjoshuadarth</a>. 
             </div>
         </div>
     )

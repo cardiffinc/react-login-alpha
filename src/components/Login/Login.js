@@ -72,10 +72,12 @@ function Login() {
     const [password, setPassword] = useState('');
     const [disableButton, setDisableButton] = useState(true);
     const [error, setError] = useState(null);
+    document.title = 'SJoshuaDarth\'s Template | Login';
 
     const checkUserExists = user => {
         return email === user.email;
     }
+
     const handleLogin = event => {
         event.preventDefault();
         var userExists = [];
