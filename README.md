@@ -13,7 +13,7 @@ This project was derived from the [ui-mockup](https://dribbble.com/shots/1187945
 - the frontend and a simple auth setup is deployed as a [demo](https://sjoshuadarth-react-login-alpha.netlify.app). 
 
 ## Develop
-- Feel free to use adapt the project. You can locally test out by following the below instruction(s). 
+- Feel free to use or adapt the project. You can locally test out by following the below instruction(s). 
 - Make sure node is installed on your device.
 
 ### `npm install`
